@@ -1,4 +1,8 @@
-# obs-chat
+Based on the project https://github.com/chrisvdev/obs-chat
+
+Thanks Chris!
+
+# Twitch Chat Processor
 A Twitch chat viewer with a TTS integrated, made with React for use in OBS or any streaming software capable of using a browser as a source, which, in addition to using the twitch API, uses WebSockets to connect to their IRC server.
 
 ## You can use it in two ways...
@@ -12,7 +16,7 @@ In order to launch or build the App you need to have an .env file like this
 ```
 VITE_CLIENT_ID=dasdpljsadjpojsdiofgbhdfaiuogvb //the client ID given form the Twitch Developres console
 VITE_CHANNEL=chrisvdev // only for development if you need to hardcode the channel to watch
-VITE_DEFAULT_AVATAR=<some URL o build Path> //to change the default avatar 
+VITE_DEFAULT_AVATAR=<some URL o build Path> //to change the default avatar
 VITE_REDIRECT_URI=https://obs-chat.christianvillegas.com/&scope=chat%3Aread //only for build, if you don't give it the default redirect is to http://localhost:5173/&scope=chat%3Aread
 ```
 
