@@ -1,0 +1,24 @@
+export type MessageType = {
+  msg: string;
+  badgeInfo: string;
+  badges: string;
+  clientNonce: string;
+  color: string;
+  displayName: string;
+  emotes: string;
+  firstMsg: string;
+  flags: string;
+  id: string;
+  mod: string;
+  returningChatter: string;
+  roomId: string;
+  subscriber: string;
+  tmiSentTs: string;
+  turbo: string;
+  userId: string;
+  userType: string;
+  userName: string;
+  ttl: number;
+  new: boolean;
+  dieing?: boolean;
+};
