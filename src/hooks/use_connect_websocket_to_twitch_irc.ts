@@ -11,17 +11,12 @@ function useConnectWebSocketToTwitchIRC() {
   }
 
   const [logged, setLogged] = useState(false);
-  const webSocket = useWebSocket(
+  const { sendMessage, lastMessage, readyState } = useWebSocket(
     redirectUri ? 'wss://irc-ws.chat.twitch.tv:443' : 'ws://irc-ws.chat.twitch.tv:80',
-    {
-      share: true,
-      shouldReconnect: () => true,
-    },
   );
-  const { sendMessage, lastMessage, readyState } = webSocket;
 
   useEffect(() => {
-    if (accessToken && !logged && readyState === ReadyState.OPEN) {
+    if (!logged && readyState === ReadyState.OPEN) {
       sendMessage('CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands');
       sendMessage(`PASS oauth:${accessToken}`);
       sendMessage('NICK ChrisVDev_OBS-Chat');
@@ -31,7 +26,7 @@ function useConnectWebSocketToTwitchIRC() {
     if (readyState !== ReadyState.OPEN) {
       setLogged(false);
     }
-  }, [logged, webSocket]);
+  }, [logged, readyState, setLogged, sendMessage]);
 
   /*
       Una vez autenticado separo los mensajes del chat de el resto de la info
@@ -51,6 +46,18 @@ function useConnectWebSocketToTwitchIRC() {
       }
     }
   }, [lastMessage]);
+
+  useEffect(() => {
+    const connectionStatus = {
+      [ReadyState.CONNECTING]: 'Connecting',
+      [ReadyState.OPEN]: 'Open',
+      [ReadyState.CLOSING]: 'Closing',
+      [ReadyState.CLOSED]: 'Closed',
+      [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
+
+    console.info(`Websocket: ${connectionStatus}`);
+  }, [readyState]);
 
   return message;
 }

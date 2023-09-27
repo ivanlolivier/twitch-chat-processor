@@ -1,5 +1,5 @@
+import html from '../commands/html';
 import { renderCommandsContainer } from '../lib/containers';
-import html from '../render_commands/html';
 import type { MessageType } from '../types';
 
 renderCommandsContainer.addCommand('html', html);
@@ -15,7 +15,8 @@ export default function renderCommands(message: MessageType) {
 
     const commandFn = renderCommandsContainer[command];
     if (commandFn) {
-      messageToRender = commandFn({ ...message, msg: rest });
+      message.msg = rest;
+      messageToRender = commandFn(message);
     }
   }
 

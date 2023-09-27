@@ -6,7 +6,9 @@ export default function placeHearts(message: MessageType) {
   if (message.msg?.includes('&lt;3')) {
     if (typeof message.emotes === 'object') {
       message.emotes = { ...message.emotes, ...afordiLove };
-    } else message.emotes = afordiLove;
+    } else {
+      message.emotes = afordiLove;
+    }
   }
   return message;
 }

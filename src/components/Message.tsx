@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { config } from '../config';
+import { useUser } from '../hooks/useUser';
 import getAvatar from '../lib/get_avatar';
 import renderBadges from '../lib/render_badges';
 import type { MessageType } from '../types';
@@ -8,7 +9,7 @@ import './message.css';
 
 const { defaultAvatar } = config.styles;
 
-function getOrnament(badges) {
+function getOrnament(badges: string[]) {
   if (badges.includes('mod')) return 'from-twitch-mod to-twitch-mod_light';
   if (badges.includes('vip')) return 'from-twitch-vip to-twitch-vip_light';
   if (badges.includes('broadcaster')) return 'from-twitch-brd to-twitch-brd_light';
@@ -21,9 +22,11 @@ type Props = {
 };
 
 function Message({ message }: Props) {
-  const avatar = getAvatar(message.userId);
+  const { user } = useUser(message.userId);
+  const [avatarLoaded, setAvatarLoaded] = useState(false);
+
+  const avatar = getAvatar(user);
   const badges = renderBadges(message.badges);
-  const [loaded, setLoaded] = useState(false);
 
   return (
     <div
@@ -41,17 +44,16 @@ function Message({ message }: Props) {
           <img
             className='h-11 w-11 rounded-full'
             src={message.quack ? message.quack : avatar}
-            onLoad={() => {
-              setLoaded(true);
-            }}
+            onLoad={() => setAvatarLoaded(true)}
             alt='User avatar'
           />
-          <img
-            className='absolute h-11 w-11 rounded-full'
-            src={defaultAvatar || '/assets/st-chrisvdev.gif'}
-            style={loaded ? { display: 'none' } : {}}
-            alt='Default avatar'
-          />
+          {!avatarLoaded && (
+            <img
+              className='absolute h-11 w-11 rounded-full'
+              src={defaultAvatar}
+              alt='Default avatar'
+            />
+          )}
         </div>
         <span
           className='ml-2 font-bold text-lg mr-4'
@@ -79,9 +81,7 @@ function Message({ message }: Props) {
           </div>
           <p
             className={`self-start text-slate-50 text-xl text-start flex flex-wrap font-inter`}
-            dangerouslySetInnerHTML={{
-              __html: message.msg,
-            }}
+            dangerouslySetInnerHTML={{ __html: message.msg }}
           />
         </div>
       </div>

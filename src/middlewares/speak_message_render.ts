@@ -2,7 +2,7 @@ import type { MessageType } from '../types';
 
 export const SPEAK_COMMAND = '!speak';
 
-function getToRead(words: string[]) {
+export function getToRead(words: string[]) {
   const hasLang = words[1][2] === '-';
   if (!hasLang) {
     return words.slice(1).join(' ');
@@ -25,5 +25,6 @@ export default function speakMessageRender(message: MessageType) {
     return message;
   }
 
-  return { ...message, msg: `📢 ${getToRead(words)}` };
+  message.msg = `📢 ${getToRead(words)}`;
+  return message;
 }

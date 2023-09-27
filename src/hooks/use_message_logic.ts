@@ -56,8 +56,8 @@ function useMessageLogic() {
   const [messageToRender, setMessageToRender] = useState<MessageType | null>(null);
 
   useEffect(() => {
+    console.log('new message 2!', { message });
     const income = messagePreProcessor.processMessage(message);
-    console.log({ income });
 
     if (messageFilters.mustBeFiltered(income)) {
       setMessageToRender(messageToRenderProcessor.processMessage(income));

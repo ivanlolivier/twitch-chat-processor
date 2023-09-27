@@ -1,5 +1,3 @@
-// improved by sonnyARG 😎
-
 import regexDynamic from '../lib/regex_dynamic';
 import type { MessageType } from '../types';
 
@@ -9,15 +7,18 @@ const ganzo = regexDynamic('ganzo');
 
 export default function antiGoose(message: MessageType) {
   if (goose?.test(message.msg)) {
-    return { msg: message.msg.replaceAll(goose, ' duck') };
+    message.msg = message.msg.replaceAll(goose, ' duck');
+    return message;
   }
 
   if (ganso?.test(message.msg)) {
-    return { msg: message.msg.replaceAll(ganso, ' pato') };
+    message.msg = message.msg.replaceAll(ganso, ' pato');
+    return message;
   }
 
   if (ganzo?.test(message.msg)) {
-    return { msg: message.msg.replaceAll(ganzo, ' pato') };
+    message.msg = message.msg.replaceAll(ganzo, ' pato');
+    return message;
   }
 
   return message;

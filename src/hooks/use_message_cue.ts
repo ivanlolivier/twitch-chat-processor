@@ -11,7 +11,8 @@ function useMessageCue() {
   const [cue, setCue] = useState<MessageType[]>([]);
 
   useEffect(() => {
-    if (message?.msg) {
+    console.log('new message', { message });
+    if (message?.msg && message?.userId) {
       setCue((lastCue) => [...lastCue, message]);
 
       setTimeout(() => {
@@ -22,7 +23,7 @@ function useMessageCue() {
 
   // ONLY FOR DEBUGGING
   useEffect(() => {
-    console.log(cue);
+    console.log('cue changed!', { cue });
   }, [cue]);
 
   return cue;

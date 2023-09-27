@@ -22,4 +22,19 @@ export type MessageType = {
   new: boolean;
   dieing?: boolean;
   vip?: string;
+  avatar?: string;
+  html?: string;
+  quack?: string;
+};
+
+export type User = {
+  id: string;
+  login: string;
+  displayName: string;
+  type: string;
+  broadcasterType: string;
+  description: string;
+  profileImageUrl: string;
+  offlineImageUrl: string;
+  createdAt: string;
 };

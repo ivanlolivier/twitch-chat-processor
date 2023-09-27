@@ -1,11 +1,11 @@
 import { config } from '../config';
-
-import userDataStorage from './users_data_storage';
+import type { User } from '../types';
 
 const { defaultAvatar } = config.styles;
 
-export default function getAvatar(userId: string) {
-  const avatar = userDataStorage.getUserData(userId).profileImageUrl?.replaceAll('300', '70');
+export default function getAvatar(user: User | null) {
+  const avatar = user?.profileImageUrl?.replace('300x300', '70x70');
+
   return avatar
     ? avatar.includes('user-default-pictures')
       ? defaultAvatar

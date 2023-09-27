@@ -10,7 +10,6 @@ export const Index = {
 
 export const STYLES = {
   DEFAULT_AVATAR: 'default_avatar',
-  STYLE: 'style',
 };
 
 export const FEATURES = {
@@ -56,7 +55,6 @@ export const config = {
 
   styles: {
     defaultAvatar: getStyleConfig(STYLES.DEFAULT_AVATAR),
-    style: getStyleConfig(STYLES.STYLE),
   },
 
   features: {

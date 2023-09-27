@@ -1,45 +1,52 @@
-import axios from 'axios';
-
 import { config } from '../config';
+import type { User } from '../types';
 
 const { clientId, accessToken } = config.twitch;
 
-function apiDecoupler(rawUserData) {
+type TwitchUser = {
+  id: string;
+  login: string;
+  display_name: string;
+  type: string; // admin | global_mod | staff | "" (normal user)
+  broadcaster_type: string; // partner | affiliate | "" (normal broadcaster)
+  description: string;
+  profile_image_url: string;
+  offline_image_url: string;
+  email?: string;
+  created_at: string; // RFC3339 format
+};
+
+function apiDecoupler(rawUserData?: TwitchUser) {
   return {
-    id: rawUserData.id,
-    login: rawUserData.login,
-    displayName: rawUserData.display_name,
-    type: rawUserData.type,
-    broadcasterType: rawUserData.broadcaster_type,
-    description: rawUserData.description,
-    profileImageUrl: rawUserData.profile_image_url,
-    offlineImageUrl: rawUserData.offline_image_url,
-    viewCount: rawUserData.view_count,
-    createdAt: rawUserData.created_at,
-  };
+    id: rawUserData?.id,
+    login: rawUserData?.login,
+    displayName: rawUserData?.display_name,
+    type: rawUserData?.type,
+    broadcasterType: rawUserData?.broadcaster_type,
+    description: rawUserData?.description,
+    profileImageUrl: rawUserData?.profile_image_url,
+    offlineImageUrl: rawUserData?.offline_image_url,
+    createdAt: rawUserData?.created_at,
+  } as User;
 }
 
 class UsersDataStorage {
-  private storage: { [key: string]: unknown };
+  private readonly storage: { [key: string]: User };
 
   constructor() {
     this.storage = {};
   }
 
-  getUserData(userId) {
+  async getUserData(userId: string) {
     if (!this.storage[userId]) {
-      axios({
-        url: `https://api.twitch.tv/helix/users?id=${userId}`,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Client-Id': clientId,
-        },
-      }).then((response) => {
-        this.storage[userId] = apiDecoupler(response.data.data[0]);
+      const res = await fetch(`https://api.twitch.tv/helix/users?id=${userId}`, {
+        headers: { Authorization: `Bearer ${accessToken}`, 'Client-Id': clientId },
       });
-      return apiDecoupler({});
+      const { data } = await res.json();
+
+      this.storage[userId] = apiDecoupler(data[0]);
     }
+
     return this.storage[userId];
   }
 }
