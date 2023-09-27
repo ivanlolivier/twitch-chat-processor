@@ -2,12 +2,12 @@ import React from 'react';
 
 import Message from './components/Message';
 import StyledMessage from './components/StyleMessage';
+import { config } from './config';
 import useMessageCue from './hooks/use_message_cue';
-import getVariable, { RENDER, STYLE } from './lib/get_variable';
 import type { MessageType } from './types';
 
-const render = getVariable(RENDER);
-const style = getVariable(STYLE);
+const { render } = config.features;
+const { style } = config.styles;
 
 function App() {
   const cue = useMessageCue();
@@ -21,7 +21,6 @@ function App() {
   }
 
   const newMessages: MessageType[] = cue.filter((message) => Boolean(message.userId));
-  // console.log({newMessages});
 
   return style ? (
     <div className='messages_container'>

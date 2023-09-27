@@ -1,11 +1,7 @@
-import getVariable, { TTS, TTS_ACCENT, TTS_INDEX } from '../lib/get_variable';
+import { config } from '../config';
 
-const tts = getVariable(TTS);
-const ttsAccent = getVariable(TTS_ACCENT);
-let ttsIndex = Number(getVariable(TTS_INDEX));
-if (ttsIndex > 0) {
-  ttsIndex -= 1;
-}
+const { tts } = config.features;
+const { ttsAccent, ttsIndex } = config.features;
 
 const voices: Record<string, number> = {};
 speechSynthesis.getVoices().forEach((v) => {
@@ -24,7 +20,7 @@ export default function speak(message: string) {
   }
 
   let accent = ttsAccent || 'es-AR';
-  let voiceNumber = ttsIndex || 0;
+  let voiceNumber = ttsIndex > 0 ? ttsIndex - 1 : 0;
 
   let toRead: string;
   const words = message.split(' ');

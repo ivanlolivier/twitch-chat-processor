@@ -1,3 +1,5 @@
+import type { MessageType } from '../types';
+
 const notAllowedWords = [
   'script',
   'src',
@@ -18,7 +20,7 @@ const notAllowedWords = [
   'meta',
 ];
 
-export default function placeHTML(message) {
+export default function placeHTML(message: MessageType) {
   if (message.html) {
     message.msg = `<div style="max-height: 15rem; max-width: 90svw; overflow: hidden;">${message.msg}</div>`;
     message.msg = message.msg.replaceAll('&lt;', '<').replaceAll('&gt;', '>');

@@ -20,6 +20,11 @@ function useMessageCue() {
     }
   }, [message]);
 
+  // ONLY FOR DEBUGGING
+  useEffect(() => {
+    console.log(cue);
+  }, [cue]);
+
   return cue;
 }
 

@@ -1,9 +1,10 @@
 import { renderCommandsContainer } from '../lib/containers';
 import html from '../render_commands/html';
+import type { MessageType } from '../types';
 
 renderCommandsContainer.addCommand('html', html);
 
-export default function renderCommands(message) {
+export default function renderCommands(message: MessageType) {
   const isACommand = typeof message.msg === 'string' ? message.msg[0] === '$' : false;
   let messageToRender = null;
 

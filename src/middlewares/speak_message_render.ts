@@ -1,17 +1,29 @@
-export default function speakMessageRender(message) {
-  let toRead = '';
-  const words = message.msg.split(' ');
-  if (words[0] === '!speak') {
-    if (words[1][2] === '-') {
-      if (`${Number(words[2])}` !== 'NaN') {
-        toRead = words.slice(3).join(' ');
-      } else {
-        toRead = words.slice(2).join(' ');
-      }
-    } else {
-      toRead = words.slice(1).join(' ');
-    }
-    message.msg = `📢 ${toRead}`;
+import type { MessageType } from '../types';
+
+export const SPEAK_COMMAND = '!speak';
+
+function getToRead(words: string[]) {
+  const hasLang = words[1][2] === '-';
+  if (!hasLang) {
+    return words.slice(1).join(' ');
   }
-  return message;
+
+  const hasVoice = `${Number(words[2])}` !== 'NaN';
+  if (!hasVoice) {
+    return words.slice(2).join(' ');
+  }
+
+  return words.slice(3).join(' ');
+}
+
+/**
+ * Example: !speak es-UY 3 Hello World
+ */
+export default function speakMessageRender(message: MessageType) {
+  const words = message.msg.split(' ');
+  if (words[0] !== SPEAK_COMMAND) {
+    return message;
+  }
+
+  return { ...message, msg: `📢 ${getToRead(words)}` };
 }

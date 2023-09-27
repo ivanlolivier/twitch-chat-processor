@@ -1,3 +1,5 @@
+import type { MessageType } from '../types';
+
 const patos = [
   '/assets/niceDuck.jpg',
   '/assets/pato1.jpg',
@@ -8,7 +10,7 @@ const patos = [
   '/assets/quack.gif',
 ];
 
-export default function patoBotMiddleware(message) {
+export default function patoBotMiddleware(message: MessageType) {
   if (/(\*[\s]*q[\s]*u[\s]*a[\s]*c[\s]*k[\s]*\*)/gi.test(message.msg)) {
     // eslint-disable-next-line max-len
     message.msg = message.msg.replaceAll(/(\*[\s]*q[\s]*u[\s]*a[\s]*c[\s]*k[\s]*\*)/gi, '🦆');

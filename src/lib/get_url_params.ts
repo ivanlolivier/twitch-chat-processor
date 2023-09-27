@@ -5,5 +5,6 @@ export default function getURLParams() {
   url.searchParams.forEach((value, name) => {
     params[name] = value;
   });
+
   return params;
 }

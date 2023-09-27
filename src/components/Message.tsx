@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import getAvatar from '../lib/get_avatar';
-import getVariable, { DEFAULT_AVATAR } from '../lib/get_variable';
 import renderBadges from '../lib/render_badges';
 import type { MessageType } from '../types';
 import './message.css';
+import { config } from "../config";
 
-const defaultAvatar = getVariable(DEFAULT_AVATAR);
+const { defaultAvatar } = config.styles;
 
 function getOrnament(badges) {
   if (badges.includes('mod')) return 'from-twitch-mod to-twitch-mod_light';

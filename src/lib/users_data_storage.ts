@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-import getVariable, { ACCESS_TOKEN, CLIENT_ID } from './get_variable';
+import { config } from '../config';
 
-const clientId = getVariable(CLIENT_ID);
-const accessToken = getVariable(ACCESS_TOKEN);
+const { clientId, accessToken } = config.twitch;
 
 function apiDecoupler(rawUserData) {
   return {
@@ -38,7 +37,6 @@ class UsersDataStorage {
         },
       }).then((response) => {
         this.storage[userId] = apiDecoupler(response.data.data[0]);
-        // console.log(this.storage)
       });
       return apiDecoupler({});
     }

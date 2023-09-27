@@ -1,4 +1,6 @@
-export default function getMessageEmojis(message) {
+import type { MessageType } from '../types';
+
+export default function getMessageEmojis(message: MessageType) {
   const emojis = {};
   if (message.emotes) {
     const letters = message.msg.split('');

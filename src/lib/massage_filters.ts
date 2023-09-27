@@ -1,4 +1,6 @@
-type FilterFn = (m: string) => boolean;
+import { MessageType } from '../types';
+
+type FilterFn = (m: MessageType) => boolean;
 
 class MessageFilters {
   private filters: FilterFn[];
@@ -11,7 +13,7 @@ class MessageFilters {
     this.filters.push(cb);
   }
 
-  mustBeFiltered(message: string) {
+  mustBeFiltered(message: MessageType) {
     return !this.filters.reduce((prev, cb) => {
       const res = cb(message);
       return res || prev;

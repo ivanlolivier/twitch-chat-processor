@@ -59,7 +59,7 @@ class MessagePreProcessor {
       }
     });
 
-    return rawObjMsg;
+    return rawObjMsg as MessageType;
   };
 
   setChannel(channel: string) {

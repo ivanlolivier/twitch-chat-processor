@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { config } from '../config';
 import botFilter from '../filters/bot_filter';
 import commandsFilter from '../filters/commands_filter';
 import isNotAMessage from '../filters/is_not_a_message';
-import getVariable, { CHANNEL, HTMLI, PATO_BOT } from '../lib/get_variable';
 import messageFilters from '../lib/massage_filters';
 import messagePreProcessor from '../lib/message_pre_processor';
 import messageToRenderProcessor from '../lib/message_to_render_processor';
@@ -24,14 +24,13 @@ import type { MessageType } from '../types';
 
 import useConnectWebSocketToTwitchIRC from './use_connect_websocket_to_twitch_irc';
 
-const channel = getVariable(CHANNEL);
-const patoBot = getVariable(PATO_BOT);
-const htmli = getVariable(HTMLI);
+const { channel } = config.twitch;
+const { patoBot, htmli } = config.features;
 
 messagePreProcessor.setChannel(channel);
 messagePreProcessor.useMiddleware(getMessageEmojis);
 messagePreProcessor.useMiddleware(preloadUserData);
-messagePreProcessor.useMiddleware(linkRemover); // hay que arreglar
+messagePreProcessor.useMiddleware(linkRemover);
 messagePreProcessor.useMiddleware(antiGoose);
 messagePreProcessor.useMiddleware(usernamePlacer);
 
@@ -45,8 +44,12 @@ messageToRenderProcessor.useMiddleware(speakMessageRender);
 messageToRenderProcessor.useMiddleware(filterHTMLTags);
 messageToRenderProcessor.useMiddleware(placeHearts);
 messageToRenderProcessor.useMiddleware(placeEmojis);
-htmli && messageToRenderProcessor.useMiddleware(placeHTML);
-patoBot && messageToRenderProcessor.useMiddleware(patoBotMiddleware);
+if (htmli) {
+  messageToRenderProcessor.useMiddleware(placeHTML);
+}
+if (patoBot) {
+  messageToRenderProcessor.useMiddleware(patoBotMiddleware);
+}
 
 function useMessageLogic() {
   const message = useConnectWebSocketToTwitchIRC();
@@ -54,6 +57,7 @@ function useMessageLogic() {
 
   useEffect(() => {
     const income = messagePreProcessor.processMessage(message);
+    console.log({ income });
 
     if (messageFilters.mustBeFiltered(income)) {
       setMessageToRender(messageToRenderProcessor.processMessage(income));

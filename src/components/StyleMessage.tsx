@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import getAvatar from '../lib/get_avatar';
 import './message.css';
-import getVariable, { DEFAULT_AVATAR } from '../lib/get_variable';
 import renderBadges from '../lib/render_badges';
 import type { MessageType } from '../types';
+import { config } from "../config";
 
-const defaultAvatar = getVariable(DEFAULT_AVATAR);
+const { defaultAvatar } = config.styles;
 
 function getOrnament(badges: string[]) {
   if (badges.includes('mod')) return 'moderator';

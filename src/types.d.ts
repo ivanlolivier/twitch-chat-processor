@@ -21,4 +21,5 @@ export type MessageType = {
   ttl: number;
   new: boolean;
   dieing?: boolean;
+  vip?: string;
 };
