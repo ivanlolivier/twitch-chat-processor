@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
+import { config } from '../config';
 import getAvatar from '../lib/get_avatar';
 import './message.css';
 import renderBadges from '../lib/render_badges';
 import type { MessageType } from '../types';
-import { config } from "../config";
 
 const { defaultAvatar } = config.styles;
 

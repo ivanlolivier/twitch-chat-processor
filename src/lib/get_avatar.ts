@@ -1,5 +1,6 @@
+import { config } from '../config';
+
 import userDataStorage from './users_data_storage';
-import { config } from "../config";
 
 const { defaultAvatar } = config.styles;
 

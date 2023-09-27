@@ -1,4 +1,4 @@
-import { MessageType } from '../types';
+import type { MessageType } from '../types';
 
 type FilterFn = (m: MessageType) => boolean;
 
